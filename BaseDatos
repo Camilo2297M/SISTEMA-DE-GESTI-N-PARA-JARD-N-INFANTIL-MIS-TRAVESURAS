@@ -1,0 +1,96 @@
+Codigo Creacion Base Dato Y Tablas SQL SERVER
+
+
+-- Crear la base de datos (si no existe)
+CREATE DATABASE JardinMtravesuras;
+USE JardinMtravesuras;
+
+-- Crear tablas
+CREATE TABLE Estudiantes (
+    codUnico INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(100),
+    fecha_nacimiento DATE,
+    direccion VARCHAR(255),
+    telefono VARCHAR(15),
+    informacion_medica TEXT,
+    grado VARCHAR(50),
+    foto VARBINARY(MAX)
+);
+
+CREATE TABLE Profesores (
+    codUnico INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(100),
+    fecha_nacimiento DATE,
+    direccion VARCHAR(255),
+    telefono VARCHAR(15),
+    titulo_academico VARCHAR(100),
+    especializacion VARCHAR(100),
+    horario_trabajo VARCHAR(255)
+);
+
+CREATE TABLE Padres (
+    codUnico INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(100),
+    direccion VARCHAR(255),
+    telefono VARCHAR(15),
+    email VARCHAR(100)
+);
+
+CREATE TABLE Horarios (
+    codUnico INT IDENTITY(1,1) PRIMARY KEY,
+    codigo_asignatura VARCHAR(50),
+    dia VARCHAR(15),
+    hora_inicio TIME,
+    hora_fin TIME,
+    aula VARCHAR(50)
+);
+
+CREATE TABLE Actividades_Ludicas (
+    codUnico INT IDENTITY(1,1) PRIMARY KEY,
+    descripcion TEXT,
+    fecha DATE,
+    responsable VARCHAR(100),
+    recursos TEXT
+);
+
+CREATE TABLE Notas (
+    codUnico INT IDENTITY(1,1) PRIMARY KEY,
+    id_estudiante INT,
+    codigo_asignatura VARCHAR(50),
+    nota DECIMAL(5,2),
+    fecha_evaluacion DATE,
+    FOREIGN KEY (id_estudiante) REFERENCES Estudiantes(codUnico)
+);
+
+CREATE TABLE Trabajos_Pendientes (
+    codUnico INT IDENTITY(1,1) PRIMARY KEY,
+    id_estudiante INT,
+    descripcion TEXT,
+    fecha_entrega DATE,
+    estado VARCHAR(15),
+    comentarios TEXT,
+    FOREIGN KEY (id_estudiante) REFERENCES Estudiantes(codUnico)
+);
+
+-- Insertar una fila de ejemplo en cada tabla
+INSERT INTO Estudiantes (nombre, fecha_nacimiento, direccion, telefono, informacion_medica, grado)
+VALUES ('Juan Pérez', '2018-05-12', 'Av. Principal 123', '555-1234', 'Ninguna', 'Nivel 1');
+
+INSERT INTO Profesores (nombre, fecha_nacimiento, direccion, telefono, titulo_academico, especializacion, horario_trabajo)
+VALUES ('Ana Gómez', '1985-09-23', 'Calle Secundaria 456', '555-5678', 'Licenciatura en Educación', 'Educación Infantil', 'Lunes a Viernes 08:00-15:00');
+
+INSERT INTO Padres (nombre, direccion, telefono, email)
+VALUES ('Laura Fernández', 'Av. Secundaria 789', '555-8765', 'laura.fernandez@email.com');
+
+INSERT INTO Horarios (codigo_asignatura, dia, hora_inicio, hora_fin, aula)
+VALUES ('Matemáticas', 'Lunes', '09:00:00', '10:00:00', 'Aula 1');
+
+INSERT INTO Actividades_Ludicas (descripcion, fecha, responsable, recursos)
+VALUES ('Manualidades de primavera', '2024-03-15', 'Ana Gómez', 'Papel, tijeras, pegamento');
+
+INSERT INTO Notas (id_estudiante, codigo_asignatura, nota, fecha_evaluacion)
+VALUES (1, 'Matemáticas', 9.5, '2024-03-01');
+
+INSERT INTO Trabajos_Pendientes (id_estudiante, descripcion, fecha_entrega, estado, comentarios)
+VALUES (1, 'Dibujo de primavera', '2024-03-20', 'Pendiente', 'Entregar a más tardar el 20 de marzo');
+
